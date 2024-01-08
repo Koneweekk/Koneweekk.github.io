@@ -3,16 +3,14 @@
 - type: github
   icon: "fab fa-github"
 
-- type: twitter
-  icon: "fa-brands fa-x-twitter"
+- type: portfolio
+  icon: "fas fa-user-tie"
+  url: "https://peaceful-mail-597.notion.site/Hanju-s-PortFolio-9e4802f3c8694b61831081d812dc4f9d"
 
 - type: email
   icon: "fas fa-envelope"
   noblank: true # open link in current tab
 
-- type: rss
-  icon: "fas fa-rss"
-  noblank: true
 # Uncomment and complete the url below to enable more contact options
 #
 # - type: mastodon
