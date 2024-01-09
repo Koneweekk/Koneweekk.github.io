@@ -1,6 +1,7 @@
 /*
   The common styles
 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@600&display=swap');
 
 html {
   @media (prefers-color-scheme: light) {
@@ -34,7 +35,7 @@ body {
     env(safe-area-inset-bottom) env(safe-area-inset-left);
   color: var(--text-color);
   -webkit-font-smoothing: antialiased;
-  font-family: $font-family-base;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 /* --- Typography --- */
