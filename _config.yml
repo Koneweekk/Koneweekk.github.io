@@ -19,7 +19,7 @@ timezone: Asia/Seoul
 
 title: Koneweekk # the main title
 
-tagline: Koneweekk의 개발/취미 일지 # it will display as the sub-title
+tagline: Koneweekk의 학습/취미 일지 # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
   A minimal, responsive and feature-rich Jekyll theme for technical writing.
