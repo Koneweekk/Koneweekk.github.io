@@ -76,18 +76,38 @@ tags:
 - `finally` 블록은 `return`을 만나도 강제로 실행된다
 
 ```java
-public class Ex01_Exception {
-  public static void main(String[] args) {
-    System.out.println("main start");
-    try {
-      System.out.println(0/0);
-      
-    } catch (Exception e) {
-      // 문제 파악
-      System.err.println("문제 발생 : " + e.getMessage());
-    }
-    System.out.println("main end");
+import java.io.IOException;
+
+public class Ex03_Finally {
+  
+  static void copyFiles() {
+    System.out.println("copy files");
   }
+  
+  static void startInstall() {
+    System.out.println("install...");
+  }
+  
+  static void deleteFile() {
+    System.out.println("복사했던 파일 삭제");
+  }
+
+  public static void main(String[] args) {
+    try {
+      copyFiles();
+      startInstall();
+      throw new IOException("Install 도중 문제 발생...");
+    } catch (IOException e) {
+      System.out.println(e.getMessage());
+      return;
+    } finally {
+      // 강제 실행 블럭
+      // return이 앞에 있어도 반드시 실행됨
+      deleteFile();
+    }
+
+  }
+
 }
 ```
 
@@ -100,11 +120,11 @@ public class Ex01_Exception {
 
 ```java
 try {
-  Exception1 발생  // 첫 번째 catch로 이동
-  Exception2 발생  // 두 번째 catch로 이동
-} catch(Exception1 e) {
+  IOException 발생  // 첫 번째 catch로 이동
+  NullPointerException 발생  // 두 번째 catch로 이동
+} catch(IOException e) {
   ...
-} catch(Exception2 e) {
+} catch(NullPointerException e) {
   ...
 }
 ```
@@ -112,17 +132,43 @@ try {
 상위 예외 클래스도 검사에 걸리기 때문에 상위 예외 클래스는 아래에 넣어야 한다.
 
 ```java
+// Exception은 최상위 예외 클래스
 try {
-  Exception1 발생  // 첫 번째 catch로 이동
-  Exception2 발생  // 첫 번째 catch로 이동
+  IOException 발생  // 첫 번째 catch로 이동
+  NullPointerException 발생  // 첫 번째 catch로 이동
 } catch(Exception e) {
   ...
-} catch(Exception1 e) {
+} catch(IOException e) {
   ...
-} catch(Exception2 e) {
+} catch(NullPointerException e) {
   ...
 }
 ```
+
+<hr>
+
+### 3. throws
+
+`throws` 키워드를 통해 메소드를 호출한 곳으로 예외를 떠넘길 수 있다.
+
+메소드에서 해당 예외를 처리하지 않고 넘겼기 때문에  
+메소드를 호출하는 곳에서 예외를 반드시 처리해주어야 한다.
+그렇지 않을 경우 에러가 발생한다.
+
+```java
+class ExClass {
+  ExClass(String path) throws IOException, NullPointerException {}
+}
+
+public class Ex04_Throw {
+	public static void main(String[] args) {  // 컴파일 에러
+		ExClass ex = new ExClass("C:\\Temp");
+	}
+}
+```
+
+
+
 
 <hr><br>
 
