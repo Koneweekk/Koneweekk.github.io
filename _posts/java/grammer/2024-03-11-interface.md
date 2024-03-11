@@ -1,6 +1,6 @@
 ---
 title: JAVA - 인터페이스(Interface)
-date: 2024-03-07 09:00:00 +09:00
+date: 2024-03-11 16:00:00 +09:00
 categories: [Java, 문법]
 tags:
   [
