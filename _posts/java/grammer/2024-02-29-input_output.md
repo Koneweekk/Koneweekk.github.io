@@ -1,7 +1,7 @@
 ---
 title: JAVA - 입력과 출력
 date: 2024-02-29 10:30:00 +09:00
-categories: [프로그래밍 언어, Java]
+categories: [Java, 문법]
 tags:
   [
     프로그래밍 언어,

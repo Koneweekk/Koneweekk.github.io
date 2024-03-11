@@ -1,7 +1,7 @@
 ---
 title: JAVA - 예외(Exception)
 date: 2024-03-06 09:20:00 +09:00
-categories: [프로그래밍 언어, Java]
+categories: [Java, 문법]
 tags:
   [
     프로그래밍 언어,
