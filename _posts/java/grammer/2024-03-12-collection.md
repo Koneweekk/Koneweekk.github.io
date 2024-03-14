@@ -48,7 +48,7 @@ tags:
 
 - `HashSet`, `TreeSet`
 
-### Map
+#### Map
 
 > 키와 값의 쌍, 키는 중복 저장 불가
 
@@ -326,33 +326,9 @@ Collections.reverse(list1);
 System.out.println(list1);  // [1, 3, 7, 15, 40, 46, 50]
 ```
 
-<hr>
+### 5. 이터레이터(Iterator)
 
-### ※ Stack과 Queue
-
-JAVA API는 `Collections` 기반의 다양한 자료구조 클래스를 제공함 
-
-#### `Stack`
-
-> LIFO(Last in First out)의 자료 구조
-
-- `push` : 데이터 추가
-- `pop` : 가장 최근 데이터를 삭제하면서 반환
-
-```java
-Stack<String> stack = new Stack<String>();
-stack.push("A");
-stack.push("B");
-stack.push("C");
-
-System.out.println(stack.pop());
-```
-
-<hr><br>
-
-## Ⅲ. 이터레이터(Iterator)
-
-### 1. Iterator
+#### Iterator
 
 `Collections`은 다수의 데이터를 다루는 표준화된 방법 제공하기 위해 수많은 인터페이스를 가지고 있다.
 
@@ -376,7 +352,7 @@ while(it.hasNext()) {
 // 200
 // 300
 ```
-### 2. ListIterator
+#### ListIterator
 
 `Iterator`는 순방향 순회만 가능하다.
 
@@ -405,7 +381,7 @@ while(it3.hasPrevious()) {
 
 <hr>
 
-### 3. remove
+#### remove
 
 `Iterator`를 사용하여 데이터를 제거하기 위해선 `remove`란 메서드를 사용한다.
 
@@ -421,6 +397,316 @@ while(it.hasNext()) {
 }
 
 System.out.println(list);  // [1, 3]
+```
+
+<hr>
+
+### ※ Stack과 Queue
+
+JAVA API는 `Collections` 기반의 다양한 자료구조 클래스를 제공함 
+
+#### `Stack`
+
+> LIFO(Last in First out)의 자료 구조
+
+- `push` : 데이터 추가
+- `pop` : 가장 최근 데이터를 삭제하면서 반환
+
+```java
+Stack<String> stack = new Stack<String>();
+stack.push("A");
+stack.push("B");
+stack.push("C");
+
+System.out.println(stack.pop());  // C
+```
+
+#### `Queue`
+
+> FIFO(First In First Out)의 자료 구조
+
+※ `Queue`는 인터페이스로 이걸 구현한 클래스 중 하나가 `LinkedList`입니다.
+
+- `offer` : `Queue`에 자료 삽입
+- `poll` : 가장 먼저 담은 데이터를 삭제하면서 반환
+
+```java
+Queue<String> queue = new LinkedList<String>();
+
+queue.offer("A");
+queue.offer("B");
+queue.offer("C");
+
+while(!queue.isEmpty()) {
+  System.out.println(queue.poll());
+}
+// A
+// B
+// C
+```
+
+<hr><br>
+
+## Ⅲ. Set 컬렉션
+
+### 1. Set의 특징
+
+#### 중복 방지
+
+똑같은 데이터는 Set 자료 구조 안에 넣을 수 없다.
+
+```java
+HashSet<Integer> hs = new HashSet<Integer>();
+
+// 데이터가 정상적으로 삽입
+System.out.println(hs.add(200));  // true
+// 중복된 데이터라 삽입되지 않음
+System.out.println(hs.add(200));  // false
+
+// 200이 하나만 삽입된 것을 확인할 수 있음
+System.out.println(hs);  // [200]
+```
+
+#### 순서가 없음
+
+삽입된 순서대로 데이터가 나열되지 않음
+
+```java
+HashSet<String> hs = new HashSet<String>();
+
+hs.add("b");
+hs.add("A");
+hs.add("F");
+hs.add("a");
+hs.add("Z");
+
+// 삽입된 순서대로 출력되지 않음
+System.out.println(hs);  // [A, a, b, F, Z]
+```
+
+<hr>
+
+### 2. 구현 클래스
+
+#### `HashSet`
+
+`Set`의 특징을 모두 지니고 있음
+- `Set` 컬렉션에서 가장 많이 사용됨  
+
+```java
+String[] strArr = {"A", "B", "A"};
+
+HashSet<String> hs = new HashSet<String>();
+for (String s : strArr) {
+  hs.add(s);
+}
+
+System.out.println(hs);  // [A, B]
+```
+
+
+#### `TreeSet`
+
+`Set`의 특징을 모두 지니고 있음
+- 이진 트리로 구성된 자료 구조
+- 정렬된 상태로 데이터를 저장한다.
+
+```java
+Set<String> ts = new TreeSet<String>();
+ts.add("B");
+ts.add("A");
+ts.add("F");
+ts.add("K");
+ts.add("G");
+ts.add("D");
+ts.add("F");
+ts.add("P");
+
+// 정렬된 상태로 출력
+System.out.println(ts);  // [A, B, D, F, G, K, P]
+```
+
+<hr><br>
+
+## Ⅳ. Map 컬렉션
+
+### 1. Map의 특징
+
+#### Key와 Value
+
+`Map`은 앞의 `Set`과 `List`와 저장하는 데이터 자체가 다르다
+
+(Key, Value) 쌍으로 데이터를 저장하고,  
+Key를 통해 Value에 접근한다.
+
+- Key : 내부적으로 `Set`으로 구현 >> 중복 방지
+- Value : 내부적으로 `List`로 구현 >> 중복 가능
+
+<hr>
+
+### 2. 구현 클래스
+
+#### `HashTable`
+
+동기화가 보장되어 있다(구버전)
+
+#### `HashMap`
+
+동기화가 보장되어 있지 않다(신버전)
+
+#### `Properties`
+
+Key와 Value의 타입이 `String`으로 고정
+
+<hr>
+
+### 3. 관련 메서드
+
+※ `Properties`는 별개의 메서드를 사용합니다.
+
+#### `put`
+
+`Map`에 자료를 넣는 함수이다.
+- 1번째 매개변수 : Key
+- 2번째 매개변수 : Value
+
+```java
+HashMap map = new HashMap();
+
+map.put("tiger", "1004");
+map.put("dog", "1000");
+
+System.out.println(map);  // {tiger=1004, dog=1000}
+```
+
+이미 존재하는 Key에 해당하는 데이터를 넣으면  
+데이터가 추가되지는 않고 해당 Value만 변한다.
+
+```java
+HashMap map = new HashMap();
+
+map.put("tiger", "1004");
+map.put("tiger", "1008");
+
+System.out.println(map);  // {tiger=1008}
+```
+
+#### `get`
+
+매개변수로 입력한 Key에 해당하는 Value를 반환한다.
+- 존재하지 않는 Key이면 `null`을 반환
+
+```java
+HashMap map = new HashMap();
+
+map.put("tiger", "1004");
+
+System.out.println(map.get("tiger"));  // 1004
+System.out.println(map.get("eagle"));  // null
+```
+
+#### `containsKey`와 `containsValue`
+
+매개변수로 입력한 Key혹은 Value가 자료구조에 존재하는지를 반환한다.
+
+```java
+HashMap map = new HashMap();
+
+map.put("tiger", "1004");
+
+System.out.println(map.containsKey("tiger"));  // true
+System.out.println(map.containsKey("eagle"));  // false
+System.out.println(map.containsValue("1004"));  // true
+System.out.println(map.containsValue("1003"));  // false
+```
+
+#### `keySet`
+
+Key들이 저장되어 있는 `Set` 타입 주소를 반환한다.
+
+```java
+HashMap map = new HashMap();
+
+map.put("tiger", "1004");
+map.put("dog", "2004");
+map.put("spider", "3004");
+
+Set set = map.keySet();
+System.out.println(set);  // [tiger, dog, spider]
+```
+
+#### `values()`
+
+저장되어 있는 Value들을 반환한다.
+- 리턴타입은 `Collection`
+
+```java
+HashMap map = new HashMap();
+
+map.put("tiger", "1004");
+map.put("dog", "2004");
+map.put("spider", "3004");
+
+System.out.println(map.values());  // [1004, 2004, 3004]
+```
+
+#### `entrySet()`
+
+Key와 Value쌍을 전부 `Set` 타입으로 반환
+
+```java
+HashMap map = new HashMap();
+
+map.put("tiger", "1004");
+map.put("dog", "2004");
+map.put("spider", "3004");
+
+System.out.println(map.entrySet());  // [tiger=1004, dog=2004, spider=3004]
+```
+
+반환되는 요소들의 타입은 `Map.Entry`이다.
+- `getKey` : 객체의 Key를 반환
+- `getValue` : 객체의 Value를 반환
+  
+```java
+Set set = smap.entrySet();
+
+for (Map.Entry m : smap.entrySet()) {
+  System.out.println(m.getKey() + "/" + ((Student)m.getValue()).name);
+}
+
+// 1002/이
+// 1001/김
+```
+
+<hr>
+
+### 4. Properties
+
+> Key와 Value의 타입이 `String`으로 고정된 특수 목적의 `Map` 구현 클래스
+
+#### 사용목적
+
+1. App 전체에 사용되는 자원관리
+2. 환경변수(전역의 의미)
+3. 프로그램의 버전
+4. 공통 변수
+
+#### 메서드
+
+- `setProperty` : 프로퍼티 추가
+- `getProperty` : Key값으로 프로퍼티 불러오기
+
+```java
+Properties prop = new Properties();
+
+prop.setProperty("admin", "kosa@or.kr");
+prop.setProperty("version", "1.x.x.x");
+prop.setProperty("downpath", "c:\\temp\\images");
+
+System.out.println(prop.getProperty("admin"));  // kosa@or.kr
+System.out.println(prop.getProperty("version"));  // 1.x.x.x
+System.out.println(prop.getProperty("downpath"));  // c:\temp\images
 ```
 
 <hr><br>
