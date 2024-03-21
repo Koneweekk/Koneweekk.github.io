@@ -281,5 +281,122 @@ public class SyncEx {
 
 <hr><br>
 
+## Ⅴ. 스레드의 다양한 설정
+
+### 1. 스레드의 우선순위
+
+> 스레드가 CPU를 점유할 확률
+
+스레드는 생성될 때 모두 동일한 CPU를 점유할 확률을 가진다.
+
+하지만 만약 먼저 처리가되길 바라는 스레드가 있다면  
+우선순위를 부여하여 CPU를 점유할 확률을 높여줄 수 있다.
+
+여기서 우선순위는 1 ~ 10의 범위를 가진다.(default = 5)
+- `setPriority` : 스레드의 우선순위 재설정
+- `getPriority` : 현재 스레드의 우선순위 반환
+
+```java
+class Path1 extends Thread {
+  @Override
+  public void run() {
+    for (int i = 0; i < 100; i++) {
+      System.out.println("--------------------------------------------");
+    }
+  }
+}
+
+class Path2 extends Thread {
+  @Override
+  public void run() {
+    for (int i = 0; i < 100; i++) {
+      System.out.println("++++++++++++++++++++++++++++++++++++++++++++");
+    }
+  }
+}
+
+
+class Path3 extends Thread {
+  @Override
+  public void run() {
+    for (int i = 0; i < 100; i++) {
+      System.out.println("*****************************************");
+    }
+  }
+}
+```
+
+```java
+Path1 path1 = new Path1();
+Path2 path2 = new Path2();
+Path3 path3 = new Path3();
+
+path1.setPriority(10);
+path2.setPriority(5);
+path3.setPriority(1);
+
+System.out.println(path1.getPriority());  // 10
+System.out.println(path2.getPriority());  // 5
+System.out.println(path3.getPriority());  // 1
+
+path1.start();
+path2.start();  
+path3.start();
+```
+
+`path` 객체들의 우선순위를 다르게 분배
+- 각가 처리되는 순서가 일정
+- 확정이 아니라 확률적이라는 것을 잊지 말자
+  
+<hr>
+
+### 2. 보조 스레드
+
+주스레드(`main`)이 종료되면 같이 종료되는 스레드
+- `setDaemon(true)` : 보조스레드로 설정
+
+```java
+class AutoSavedThread extends Thread {
+  public void save() {
+    System.out.println("작업 내용을 자동 저장합니다.");
+  }
+  
+  @Override
+  public void run() {
+    while(true) {
+      save();
+      try {
+        Thread.sleep(2000);
+      } catch(Exception e) {
+        break;
+      }
+    }
+  }
+}
+```
+
+`auto`를 보조스레드로 선언함
+- `main`이 5초 대기 후 종료되면서 `auto`가 `while`을 돌고 있음에도 종료
+
+```java
+public class Ex07_DaemonThread {
+
+  public static void main(String[] args) {
+    AutoSavedThread auto = new AutoSavedThread();
+    auto.setDaemon(true);
+    auto.start();
+    
+    try {
+      Thread.sleep(5000);
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
+  }
+
+}
+```
+
+<hr><br>
+
 ## 참고
 - [https://webcoding-start.tistory.com/62](https://webcoding-start.tistory.com/62)
