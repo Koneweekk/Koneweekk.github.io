@@ -1,5 +1,5 @@
 ---
-title: DATABASE - SQL GROUP BY와 Having(Oracle DB)
+title: SQL - GROUP BY와 HAVING (Oracle DB)
 date: 2024-04-01 16:30:00 +09:00
 categories: [DB, sql]
 tags:
