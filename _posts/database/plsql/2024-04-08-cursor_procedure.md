@@ -211,7 +211,7 @@ END;
 CREATE OR REPLACE PROCEDURE usp_EmpList
 (
   p_sal IN number,
-  p_cursor OUT SYS_REFCURSOR --APP 사용하기 위한 타입 (한건이상의 데이터 select 내부적으로 cursor 사용
+  p_cursor OUT SYS_REFCURSOR 
 )
 IS
 BEGIN
