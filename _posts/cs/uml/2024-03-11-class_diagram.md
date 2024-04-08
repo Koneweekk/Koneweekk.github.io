@@ -1,7 +1,7 @@
 ---
 title: UML - 클래스 다이어그램
 date: 2024-03-11 09:40:00 +09:00
-categories: [Java, UML]
+categories: [CS, UML]
 tags:
   [
     프로그래밍 언어,

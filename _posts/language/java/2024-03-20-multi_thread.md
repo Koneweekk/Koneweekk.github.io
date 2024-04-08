@@ -1,7 +1,7 @@
 ---
 title: JAVA - 멀티 스레드 (Multi Thread)
 date: 2024-03-20 09:00:00 +09:00
-categories: [Java, 문법]
+categories: [Programming Language, Java]
 tags:
   [
     프로그래밍 언어,

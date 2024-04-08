@@ -1,7 +1,7 @@
 ---
 title: JAVA - 인터페이스(Interface)
 date: 2024-03-11 16:00:00 +09:00
-categories: [Java, 문법]
+categories: [Programming Language, Java]
 tags:
   [
     프로그래밍 언어,

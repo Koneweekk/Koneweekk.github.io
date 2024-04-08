@@ -1,7 +1,7 @@
 ---
 title: JAVA - 컬렉션(Collection)
 date: 2024-03-12 14:40:00 +09:00
-categories: [Java, 문법]
+categories: [Programming Language, Java]
 tags:
   [
     프로그래밍 언어,

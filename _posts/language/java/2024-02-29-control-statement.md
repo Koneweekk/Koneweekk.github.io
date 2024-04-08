@@ -1,7 +1,7 @@
 ---
 title: JAVA - 조건문과 반복문
 date: 2024-02-29 09:00:00 +09:00
-categories: [Java, 문법]
+categories: [Programming Language, Java]
 tags:
   [
     프로그래밍 언어,

@@ -1,7 +1,7 @@
 ---
 title: JAVA - 익명함수 (Anonymous Class)
 date: 2024-03-19 15:00:00 +09:00
-categories: [Java, 문법]
+categories: [Programming Language, Java]
 tags:
   [
     프로그래밍 언어,

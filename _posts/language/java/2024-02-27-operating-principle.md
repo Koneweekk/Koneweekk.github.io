@@ -1,7 +1,7 @@
 ---
 title: JAVA - 기본 작동 원리
 date: 2024-02-27 15:30:00 +09:00
-categories: [Java, 문법]
+categories: [Programming Language, Java]
 tags:
   [
     프로그래밍 언어,
