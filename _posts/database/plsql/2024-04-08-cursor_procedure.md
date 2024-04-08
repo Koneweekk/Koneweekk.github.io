@@ -110,8 +110,10 @@ END;
   
 보안 문제 해결
 - SQL구문을 도중에 가로채 분석 불가능
+  
+<hr>
 
-### 2. PROCEDURE 생성
+### 3. PROCEDURE 생성
 
 생성 문법은 다음과 같다.
 
@@ -142,7 +144,7 @@ END;
 
 <hr>
 
-### 3. PROCEDURE 실행
+### 4. PROCEDURE 실행
 
 `EXECUTE`를 통해 만들어둔 프로시저를 호출하여 사용한다.
 
@@ -152,7 +154,7 @@ EXECUTE PROCEDURENAME;
 
 <hr>
 
-### 4. PROCEDURE의 매개변수
+### 5. PROCEDURE의 매개변수
 
 input 매개변수를 설정하여 사용자로 부터 입력받게 할 수 있다.
 
@@ -203,7 +205,7 @@ END;
 
 <hr>
 
-### 5. CURSOR 타입 매개변수
+### 6. CURSOR 타입 매개변수
 
 한 건 이상의 데이터를 `SELECT`한 `CURSOR`를 매개변수에 담기 위해 사용하는 타입
 
