@@ -67,6 +67,8 @@ Normal Flow:
 }
 ```
 
+---
+
 ### 2. padding
  
 > 테두리 안쪽의 내부 여백  
@@ -78,6 +80,8 @@ Normal Flow:
   padding: 30px;
 }
 ```
+
+---
 
 ### 3. border
 
@@ -91,7 +95,9 @@ Normal Flow:
 }
 ```
 
-### 4. 축약 정의
+---
+
+### 4. 축약 표현
 
 전부
 ```css
