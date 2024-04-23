@@ -2,7 +2,7 @@
 title: Jquery - 시작하기
 date: 2024-04-22 11:00:00 +09:00
 categories: [Front-End, Jquery]
-tags: [프로그래밍 언어, Javascript, Jquery]
+tags: [Javascript, Jquery]
 ---
 
 ## Ⅰ. Jquery란?
@@ -107,10 +107,11 @@ $(function(){
 
 ### 3. 셀렉터
 
-`$(선택자).동작함수()`
+`$(선택자)`
 
 - CSS 셀렉터와 매우 유사하며, jQuery를 사용하여 DOM 요소를 찾고 조작하는 데 사용
 - 선택자를 이용하여 원하는 HTML 요소를 선택하고, 동작 함수를 정의하여 선택된 요소에 원하는 동작을 설정
+- 만약 선택되는 요소가 여러 개라면 배열이 반환됨
 
 ---
 

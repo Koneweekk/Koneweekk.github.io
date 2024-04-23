@@ -1,8 +1,8 @@
 ---
-title: Jquery - 이벤트와 메서드
+title: Jquery - 이벤트
 date: 2024-04-22 14:30:00 +09:00
 categories: [Front-End, Jquery]
-tags: [프로그래밍 언어, Javascript, Jquery]
+tags: [Javascript, Jquery]
 ---
 
 ## Ⅰ. 이벤트 객체에 접근하는 방법
@@ -37,7 +37,42 @@ $("input").blur(function (event) {
 ---
 <br>
 
-## Ⅱ. 자주 쓰는 이벤트
+## Ⅱ. 이벤트 추가 방법
+
+### 1. 일반 방법
+
+`$(selector).eventType(function(event){})`
+
+- `$(selector)` : 이벤트를 추가하고자 하는 요소를 선택
+- `eventType` : 감지하고자 하는 동작
+- `function(event){}` : 동작 감지시 실행하고자 하는 함수
+
+---
+
+### 2. on 활용
+
+`on` 함수를 활용하여 이벤트를 추가할 수도 있다.
+
+```js
+$('selector').on('eventType', function(){
+  alert("이벤트 추가")
+})
+```
+
+### 3. 동적으로 이벤트 구현
+
+이벤트가 실행될 때 문서의 모든 부분을 탐색한 후 이벤트 추가
+
+```js
+$(document).on('change','selector', function(){
+  alert("동적인 이벤트 추가")
+})
+```
+
+---
+<br>
+
+## Ⅲ. 자주 쓰는 이벤트
 
 ### 1. click
 
@@ -126,87 +161,7 @@ $("p").hover(
 ---
 <br>
 
-## Ⅲ. On / Off
-
-### 1. On
-
-- 지정된 이벤트가 발생했을 때 실행할 함수를 바인딩
-- on() 메서드를 사용하면 이벤트 핸들러를 여러 개 등록 가능
-
-```js
-$('p').on (
-  {
-    mouseleave:function(){ $(this).css('background-color','red') },
-    click:function(){$(this).css('background-color','green')},
-    mouseenter:function(){$(this).css('background-color','blue')}
-  }	
-);
-```
-
----
-
-### 2. Off
-
-- 이벤트 핸들러를 제거
-
-```js
-$('button').click(function(){
-    $('p').off('click'); //클릭이벤트 제거 
-});
-```
-
----
-<br>
-
-## Ⅳ. Text / Html
-
-### 1. Text
-
-> 순수한 텍스트를 가져오고 설정
-
-- 선택한 요소의 텍스트 내용을 가져오거나 설정
-- HTML 요소의 텍스트 내용만을 고려
-- HTML 태그를 제외한 순수한 텍스트 내용만을 다룸
-- 텍스트 그대로를 다룹니다. 
-- 텍스트 내용을 설정할 때는 HTML 태그를 인식하지 않고 그대로 출력
-
-```js
-//getter
-$('#btn1').click(function(){
-  console.log("test",$('#test').text()); 
-});
-
-//setter 
-$('#btn3').click(function(){
-  $('#test').text("AAAAA"); 
-});
-```
-
----
-
-### 2. html
-
-> HTML을 가져오고 설정
-
-- HTML 요소 자체와 그 안에 포함된 다른 요소들을 모두 포함
-- HTML 내용을 설정할 때는 기존의 내용을 완전히 대체
-
-```js
-// getter
-$('#btn2').click(function(){
-  console.log("test",$('#test').html());
-});
-
-// setter
-$('#btn3').click(function(){
-  $('#test').html("<div>AAAAA</div>");
-});
-```
-
----
-<br>
-
-## Ⅴ. each
+## ※ each
 
 ### 1. each의 역할
 
@@ -265,4 +220,5 @@ $('p').each(function(){
 
 `$.each(obj, function(key, value){});`
 
-
+---
+<br>
