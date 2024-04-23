@@ -1,7 +1,7 @@
 ---
 title: CSS - Display와 Position
 date: 2024-04-15 15:10:00 +09:00
-categories: [Web, CSS]
+categories: [Front-End, CSS]
 tags:
   [
     Web,

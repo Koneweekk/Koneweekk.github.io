@@ -1,7 +1,7 @@
 ---
 title: HTML - HTML 기본
 date: 2024-04-15 10:50:00 +09:00
-categories: [Web, HTML]
+categories: [Front-End, HTML]
 tags:
   [
     Web,

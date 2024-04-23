@@ -1,7 +1,7 @@
 ---
 title: CSS - 레이아웃
 date: 2024-04-15 16:00:00 +09:00
-categories: [Web, CSS]
+categories: [Front-End, CSS]
 tags: [Web, HTML, Browser, CSS, Layout, Float]
 ---
 

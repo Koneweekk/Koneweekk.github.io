@@ -1,7 +1,7 @@
 ---
 title: CSS - 박스 모델
 date: 2024-04-15 15:30:00 +09:00
-categories: [Web, CSS]
+categories: [Front-End, CSS]
 tags:
   [
     Web,
