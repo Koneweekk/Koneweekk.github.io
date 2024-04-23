@@ -60,7 +60,7 @@ const tdList = $(this).children("td");
 
 > `children()`으로 선택된 자식 요소들 중에서 특정 인덱스에 해당하는 요소를 선택
 
-- $(selector).children().eq(index)
+- `$(selector).children().eq(index)`
 
 ```js
 $("#parent").children().eq(1).css("font-weight", "bold");

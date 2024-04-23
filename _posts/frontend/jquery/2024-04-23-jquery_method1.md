@@ -137,9 +137,9 @@ $('#btn2').click(function(){
 - `$(content).appendTo(selector)`
 
 ```js
-  $('#btnmenu').click(function() {
-    $('#menu').clone().appendTo('#submenu');
-  })
+$('#btnmenu').click(function() {
+  $('#menu').clone().appendTo('#submenu');
+})
 ```
 
 ---
@@ -151,21 +151,21 @@ $('#btn2').click(function(){
 - `$(content).prependTo(selector)`
 
 ```js
-  $('#btnmenu').click(function() {
-    $('#menu').clone().prependTo('#submenu');
-  })
+$('#btnmenu').click(function() {
+  $('#menu').clone().prependTo('#submenu');
+})
 ```
 
 ---
 
-### 3. after
+### 5. after
 
 선택한 요소 뒤에 새로운 내용을 추가
 - `$(selector).after(content)`
 
 ---
 
-### 4. before
+### 6. before
 
 선택한 요소 앞에 새로운 내용을 추가
 - `$(selector).before(content)`
@@ -185,7 +185,7 @@ $('#btn2').click(function(){
 
 ```js
 $('#removeButton').click(function() {
-    $('#container').remove();
+  $('#container').remove();
 });
 ```
 
@@ -199,6 +199,6 @@ $('#removeButton').click(function() {
 
 ```js
 $('#emptyButton').click(function() {
-    $('#container').empty();
+  $('#container').empty();
 });
 ```
