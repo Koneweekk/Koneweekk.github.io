@@ -1,5 +1,5 @@
 ---
-title: JSP - action
+title: JSP - action 태그
 date: 2024-04-24 11:40:00 +09:00
 categories: [Back-End, Servelt & JSP]
 tags: [Back-End, Servelt, JSP, include]
@@ -52,7 +52,14 @@ tags: [Back-End, Servelt, JSP, include]
 
 ---
 
-### 2. 기본적인 사용법
+### 2. include의 특징
+
+- request 객체를 포함하는 페이지와 공유
+- 포함되는 페이지가 버퍼에 쓰인 후 포함하는 페이지가 그 통제권을 다시 가져옴
+
+---
+
+### 3. 기본적인 사용법
 
 `<jsp:include page="filePath"/>`
 - `include` : action 타입으로 `include`를 입력
@@ -78,4 +85,46 @@ tags: [Back-End, Servelt, JSP, include]
 
 여러 페이지에서 자주 내용은 include를 활용하여 활용하는 것이 좋음
 - 네비게이션바, 사이드바, 푸터, 헤더 등의 요소가 이에 포함됨
+
+---
+<br>
+
+## Ⅲ. forward
+
+### 1. forward란?
+
+- 서버 측에서 페이지를 다른 JSP 페이지로 전달하는 기능을 제공
+- 보통 사용자 요청을 다른 JSP 페이지나 서블릿으로 보내는 데 사용
+
+---
+
+### 2. forward의 특징
+
+- forward를 사용하면 클라이언트는 전환된 페이지에 대한 URL을 볼 수 없음
+- 이동이 서버 측에서 이루어지므로 URL이 변경되지 않음
+- request 객체를 요청된 페이지와 전환된 페이지가 공유
+- 전환된 페이지가 요청된 페이지의 버퍼를 비운 후 통제권을 넘겨받음
+
+---
+
+### 3. 기본적인 사용법
+
+```jsp
+<%
+	String code = request.getParameter("code");
+	String viewUrl = null;
+	
+	if (code.equals("A")) viewUrl = "/forward/A.jsp";
+	else if (code.equals("A")) viewUrl = "/forward/A.jsp";
+	else if (code.equals("A")) viewUrl = "/forward/A.jsp";
+%>
+
+<jsp:forward page="<%=viewUrl %>"/>
+```
+
+- 데이터로 넘어오는 `code`의 값에 따라 다른 페이지들로 전환된다.
+
+---
+
+### 4. 예외 처리
 
