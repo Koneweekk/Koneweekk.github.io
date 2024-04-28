@@ -98,17 +98,20 @@ EL : ${today}<br>
 
 ### 2. 기본 문법
 
+코어 태그
 - 태그 안 요소가 없을 경우 : `<c:태그명 속성명1:속성값1 속성명2:속성값2 .../>`
 - 태그 안 요소가 있을 경우 : `<c:태그명 속성명1:속성값1 속성명2:속성값2 ...> 요소 </c:태그명>`
 
-```jsp
-<c:set var="m" value="<%=emp%>" />
-```
+포매터 태그
+- `<fmt:formatXXX 속성명1:속성값1 속성명2:속성값2 ... />`
+
+함수 태그
+- `${fn:함수명(매개변수)}`
 
 ---
 <br>
 
-## Ⅲ. JSTL의 태그들
+## Ⅲ. 코어 태그
 
 ### 1. set
 
@@ -258,9 +261,115 @@ ${job }<br>
 ### 6. out
 
 > 있는 그대로 출력해주는 태그
+- 출력값 안에 태그가 포함되더라도 그대로 출력해준다.
+
+```jsp
+<c:out value="<p>문단 태그입니다</p>" />
+```
 
 ---
 
 ### 7. catch
 
 > 예외 처리를 처리할 수 있는 태그
+
+```jsp
+<c:catch  var="msg">
+name: <%= request.getParameter("name") %>
+<%
+  if(request.getParameter("name").equals("hong")){
+    out.print("당신의 이름은 : " + request.getParameter("name"));
+  }
+%>
+</c:catch>
+<c:if test="${msg != null}">
+  <h3>예외발생</h3>
+  오류메시지 : ${msg}<br>
+</c:if>
+```
+
+- `var` : 예외 객체를 저장할 변수명을 지정
+- `catch` 구문 안에서 에러가 발생하는 구문은 실행 X
+  
+---
+<br>
+
+## Ⅳ. 포매터 태그
+
+### 1. formatNumber
+
+```jsp
+<fmt:formatNumber value="50000000" type="currency" currencySymbol="$" /><br>
+<!-- $50,000,000 -->
+
+<fmt:formatNumber value="0.13" type="percent"/><br>
+<!-- 13% 변수에 설정 -->
+
+<fmt:formatNumber value="123456789" pattern="###,###,###" var="pdata" />
+<!-- 변수에 설정한 값 : 123,456,789 -->
+```
+
+- value : 형식화할 숫자가 지정
+- type : 형식화 유형을 지정
+- pattern : 사용자가 지정한 패턴에 따라 형식화
+
+---
+
+### 2. formatDate
+
+```jsp
+변수선언 : <c:set var="now" value="<%= new Date() %>" /><br>
+변수값 : ${now}<br>
+Basic Date : <fmt:formatDate value="${now}" type="date" /><br>
+DateStyle(full) : <fmt:formatDate value="${now}" type="date" dateStyle="full" /><br>
+DateStyle(short) : <fmt:formatDate value="${now}" type="date" dateStyle="short" /><br>
+시간:<fmt:formatDate value="${now}" type="time"/><br>
+날짜 + 시간:<fmt:formatDate value="${now}" type="both"/><br>
+혼합:<fmt:formatDate value="${now}" type="both" dateStyle="full" timeStyle="full" /><br>
+혼합2:<fmt:formatDate value="${now}" type="both" dateStyle="short" timeStyle="short" /><br>
+
+<!-- 
+변수값 : Fri Apr 26 09:25:07 KST 2024
+Basic Date : 2024. 4. 26.
+DateStyle(full) : 2024년 4월 26일 금요일
+DateStyle(short) : 24. 4. 26.
+시간:오전 9:25:07
+날짜 + 시간:2024. 4. 26. 오전 9:25:07
+혼합:2024년 4월 26일 금요일 오전 9시 25분 7초 대한민국 표준시
+혼합2:24. 4. 26. 오전 9:25
+-->
+```
+
+- value : 형식화할 날짜가 지정
+- type : 형식화 유형을 지정
+- dateStyle : 날짜를 표시할 스타일 지정
+- timeStyle : 시간을 표시할 스타일 지정
+
+---
+<br>
+
+## Ⅴ. 함수 태그
+
+### 1. 함수 태그란?
+
+- 함수와 관련된 여러 가지 유용한 작업을 수행하는 데 사용
+- 이것은 주로 문자열 조작 및 변환, 컬렉션 조작 등에 사용
+
+---
+
+### 2. 사용법
+
+el 태그 안에서 사용
+- 다양한 함수가 존재
+
+```jsp
+대문자 : ${fn:toUpperCase(str)}<br>
+문자열길이 : ${fn:length(str)}<br>
+치환 : ${fn:replace(str,'a','AAAA')}<br>
+
+<!-- 
+대문자 : ORACLE
+문자열길이 : 6
+치환 : orAAAAcle
+-->
+```
