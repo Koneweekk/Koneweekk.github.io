@@ -1,7 +1,7 @@
 ---
 title: DATABASE - Oracle DB 설치하기
 date: 2024-03-29 11:00:00 +09:00
-categories: [DB, install]
+categories: [DB, DB install]
 tags:
   [
     Data,

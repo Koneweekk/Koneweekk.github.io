@@ -1,7 +1,7 @@
 ---
 title: Linux - WSL 및 Ubuntu 설치하기
 date: 2024-04-03 17:50:00 +09:00
-categories: [Linux, Install]
+categories: [Linux, Linux Install]
 tags:
   [
     linux,
