@@ -5,9 +5,7 @@ categories: [Back-End, Spring]
 tags: [Back-End, Java, Spring, MVC]
 ---
 
-## Ⅰ. Spring MVC 개요
-
-### 1. MVC 패턴이란??
+## Ⅰ. MVC 패턴이란??
 
 > Model-View-Controller의 약자로, 소프트웨어 디자인 패턴 중 하나
 
@@ -26,8 +24,9 @@ Controller
 - Spring MVC에서는 주로 POJO 기반의 컨트롤러 클래스들이 이 역할을 수행
 
 ---
+<br>
 
-### 2. Spring MVC의 흐름
+## Ⅱ. Spring MVC의 흐름
 
 ![Spring MVC의 흐름1](https://media.geeksforgeeks.org/wp-content/uploads/20231106150237/Spring-MVC-Framework-Control-flow-Diagram.png)
 
@@ -68,11 +67,3 @@ ViewResolver
 HTTP 응답
 - 생성된 콘텐츠는 DispatcherServlet에게 반환되어 클라이언트로 전송
 -  DispatcherServlet은 HTTP 응답을 완성하고 클라이언트에게 전송
-
----
-<br>
-
-## Ⅱ. 
-
-### 1.
-
