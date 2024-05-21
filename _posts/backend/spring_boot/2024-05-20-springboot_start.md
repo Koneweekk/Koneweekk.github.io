@@ -110,6 +110,7 @@ public class FirstController {
 - `greeting.mustache` 문서에 `username` 변수에 `hanju`값을 담아 보내게 된다.
 
 ```html
+{% raw %}
 <!-- src / main / resources / templates / grettings.mustache -->
 <!DOCTYPE html>
 <html lang="en">
@@ -123,7 +124,46 @@ public class FirstController {
   <h1>{{username}}님 안녕하세요!</h1>
 </body>
 </html>
+{% endraw %}
 ```
 
 - 서버가 넘기는 매개변수에 따라 출력값이 변하게 된다.
 - 위 경우 `hanju님 안녕하세요!` 라는 출력값이 뜨게 된다.
+
+---
+
+### 4. 레이아웃
+
+```html
+{% raw %}
+<!-- src / main / resources / templates / layouts / header.mustache -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+{% endraw %}
+```
+
+```html
+{% raw %}
+<!-- src / main / resources / templates / layouts / footer.mustache -->
+</body>
+</html>
+{% endraw %}
+```
+
+- 위와 같은 공통 요소를 페이지 내에서 불러와 재활용
+
+```html
+{% raw %}
+<!-- src / main / resources / templates / grettings.mustache -->
+{{>layouts/header}}
+  <h1>{{username}}님, 다음에 또 만나요!</h1>
+{{>layouts/footer}}
+{% endraw %}
+```
