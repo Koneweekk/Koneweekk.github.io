@@ -146,9 +146,9 @@ public interface ArticleRepository extends CrudRepository<Article, Long> {
 
 ## Ⅱ. 게시글 Read
 
-### 1. 단일 데이터 조회
+### 1. 컨트롤러 - 단일 데이터 조회
 
-url 쿼리 스트링을 통해 게시글의 id값을 넘겨 개별 게시글에 접근
+url을 통해 게시글의 id값을 넘겨 개별 게시글에 접근
 
 ```java
 // 중괄호 안에 i`를 넣어줌으로써 id는 변수로 사용
@@ -177,7 +177,7 @@ public String showArticle(@PathVariable Long id, Model model) {
 
 ---
 
-### 2. 데이터 목록 조회
+### 2. 컨트롤러 - 데이터 목록 조회
 
 ```java
 @GetMapping("/articles")
@@ -203,9 +203,7 @@ public interface ArticleRepository extends CrudRepository<Article, Long> {
 
 ---
 
-### 3. 뷰페이지 설정
-
-단일 데이터 조회 페이지
+### 3. 뷰페이지 - 단일 데이터 조회 페이지
 
 ```html
 {% raw %}
@@ -233,9 +231,15 @@ public interface ArticleRepository extends CrudRepository<Article, Long> {
 {% endraw %}
 ```
 
-<img src="/assets/img/post/backend/spring-boot/board_crud/read_01.png" width="100%" title="read_01" alt="read_01"/>  
+<img src="/assets/img/post/backend/spring-boot/board_crud/read_01.png" width="100%" title="read_01" alt="read_01"/>
 
-목록 조회 페이지
+`#articleList`, `/articleList`
+- 이중 중괄호 안 `#`과 `/`뒤에 모델로 넘긴 속성명을 입력하여 데이터에 접근
+- 그 사이 이중 중괄호에는 엔티티의 속성명을 통해 속성값에 접근 가능
+
+---
+
+### 뷰페이지 - 목록 조회 페이지
 
 ```html
 {% raw %}
@@ -266,8 +270,6 @@ public interface ArticleRepository extends CrudRepository<Article, Long> {
 <img src="/assets/img/post/backend/spring-boot/board_crud/read_02.png" width="100%" title="read_02" alt="read_02"/>  
 
 `#articleList`, `/articleList`
-- 이중 중괄호 안 `#`과 `/`뒤에 모델로 넘긴 속성명을 입력하여 데이터에 접근
-- 그 사이 이중 중괄호에는 엔티티의 속성명을 통해 속성값에 접근 가능
 - 만약 배열 데이터라면 그 수만큼 반복됨
 
 ---
@@ -275,9 +277,133 @@ public interface ArticleRepository extends CrudRepository<Article, Long> {
 
 ## Ⅲ. 게시글 Update
 
+### 1. 컨트롤러 - 수정할 데이터 가져오기
+
+- url을 통해 게시글의 id값을 넘겨받아 개별 게시글 정보 Read
+- 가져온 정보를 model에 등록하여 페이지에 전달
+
+```java
+@GetMapping("/articles/{id}/edit")
+public String showEdit(@RequestParam Long id, Model model) {
+  // 수정할 데이터 가져오기
+  Article articleEntity = articleRepository.findById(id).orElse(null);
+  // 모델에 데이터 등록
+  model.addAttribute("article", articleEntity);
+  // 뷰페이지 설정
+  return "articles/edit";
+}
+```
+
+### 2. 컨트롤러 - 수정 데이터 받아오기 DB 갱신
+
+- 폼 데이터로 보낸 데이터를 DTO로 수신
+- 해당 id의 데이터가 DB에 존재하는지 확인
+- 존재한다면 그대로 저장(기존 id의 데이터를 삭제하고, 새로 저장)
+- 수정 완료 후 게시글 상세보기 페이지로 리다이렉트
+
+```java
+@PostMapping("/articles/edit")
+public String editArticle(ArticleForm form) {
+  // 수정된 데이터
+  Article articleEntity = form.toEntity();
+  Long id = articleEntity.getId();
+  // 기존 데이터가 존재하는지 확인
+  Article target = articleRepository.findById(id).orElse(null);
+  // 기존 데이터 갱신
+  if (target != null) {
+    articleRepository.save(articleEntity);
+  }
+    
+  return "redirect:/articles/" + id;
+}
+```
+
+---
+
+### 3. DTO - id 필드 추가
+
+- 게시글 생성용 DTO에는 ID 필드가 없음
+- 게시글 수정을 위해선 ID 정보가 필요하므로 id 필드 추가
+
+```java
+package kr.or.kosa.springproject1.dto;
+
+import kr.or.kosa.springproject1.entity.Article;
+import lombok.AllArgsConstructor;
+import lombok.ToString;
+
+@AllArgsConstructor
+@ToString
+public class ArticleEditFrom {
+  private Long id;
+  private String title;
+  private String content;
+  
+  public Article toEntity() {
+    return new Article(id, title, content);
+  }
+}
+```
+
+---
+
+### 4. 뷰페이지 - 게시글 수정하기 페이지
+
+```html
+{% raw %}
+<!-- edit.mustache -->
+
+{{>layouts/header}}
+
+<form class="container" action="/articles/edit" method="post">
+    <input type="hidden" name="id" value="{{article.id}}">
+    <div class="mb-3">
+        <label class="form-label">제목</label>
+        <input type="text" class="form-control" name="title" value="{{article.title}}">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">내용</label>
+        <textarea class="form-control" rows="3" name="content" value="{{article.content}}"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{{>layouts/footer}}
+{% endraw %}
+```
+
+<img src="/assets/img/post/backend/spring-boot/board_crud/update_01.png" width="100%" title="update_01" alt="update_01"/>  
+<img src="/assets/img/post/backend/spring-boot/board_crud/update_02.png" width="100%" title="update_02" alt="update_02"/>  
+
 ---
 <br>
 
 ## Ⅳ. 게시글 Delete
 
+### 1. 컨트롤러 - 대상 삭제
 
+- url을 통해 게시글의 id값을 넘겨받아 삭제할 게시글에 접근
+- 레포지토리의 `delete` 메서드를 이용하여 DB에서 삭제
+
+```java
+@GetMapping("/articles/{id}/delete")
+public String deleteArticle(@PathVariable Long id) {
+  // 삭제할 대상 가져오기
+  Article target = articleRepository.findById(id).orElse(null);
+  // 대상 엔티티 삭제
+  if (target != null) articleRepository.delete(target);
+  return "redirect:/articles";
+}
+```
+
+---
+
+### 2. 요청을 통한 게시글 삭제
+
+<img src="/assets/img/post/backend/spring-boot/board_crud/delete_01.png" width="100%" title="delete_01" alt="delete_01"/> 
+
+- url을 통해 삭제 컨트롤러 호출
+
+<img src="/assets/img/post/backend/spring-boot/board_crud/delete_02.png" width="100%" title="delete_02" alt="delete_02"/>  
+
+- 전체 게시글 조회 목록에서 해당 게시글이 삭제된 모습
