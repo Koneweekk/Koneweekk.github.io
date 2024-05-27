@@ -1,5 +1,5 @@
 ---
-title: Spring Boot - 게시판 CRUD
+title: Spring Boot - MVC 게시판 CRUD
 date: 2024-05-21 16:00:00 +09:00
 categories: [Back-End, Spring Boot]
 tags: [Back-End, Java, Spring Boot, CRUD]
