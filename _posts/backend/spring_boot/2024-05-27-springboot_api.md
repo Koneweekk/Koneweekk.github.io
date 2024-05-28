@@ -474,17 +474,23 @@ return name + " : " + email;
 
     <!-- 콘솔에 로그를 출력하는 Appender 설정 -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
     <!-- 파일에 로그를 출력하는 Appender 설정 -->
-    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/application.log</file>
+    <appender name="INFO_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <file>${LOG_PATH:-logs}/application.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 매일 로그 파일을 롤링하며, 30일 동안 보관 -->
-            <fileNamePattern>logs/application.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${LOG_PATH:-logs}/application.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
@@ -495,12 +501,88 @@ return name + " : " + email;
     <!-- 루트 로거 설정 -->
     <root level="${LOG_LEVEL:INFO}">
         <appender-ref ref="CONSOLE" />
-        <appender-ref ref="FILE" />
+        <appender-ref ref="INFO_LOG" />
     </root>
-
 </configuration>
 ```
 
+`appender`
+- 로그의 형태를 설정하고 어떤 방법으로 출력할지를 설정하는 곳
+- 각 구현체를 등록하여 로그를 원하는 형식으로 출력할 수 있음
+- 대표적인 구현체는 다음과 같다
+  - ConsoleAppender : 로그 메시지를 콘솔(표준 출력)로 출력
+  - FileAppender : 로그 메시지를 지정된 파일에 출력
+  - RollingFileAppender : 로그 메시지를 파일에 출력하며, 파일 크기나 시간 기반으로 로그 파일을 롤링(회전)
+  - SMTPAppender : 로그 메시지를 이메일로 전송합니다.
+  - DBAppender: 로그 메시지를 데이터베이스에 저장
 
+`filter`
+- 로그가 어떤 레벨로 저장될지 설정
 
+`encoder`
+- `pattern`을 통해 로그의 표현 형식을 정의
+- 사용가능한 패턴은 몇가지 정해져있음
 
+| 패턴 | 설명 |
+|---|---|
+| %msg 또는 %message| 로그 메시지를 출력|
+| %level 또는 %p| 로그 레벨을 출력|
+| %thread| 로그를 기록한 스레드의 이름을 출력|
+| %logger 또는 %logger{length}| 로그를 기록한 로거의 이름을 출력|
+| %class 또는 %C| 로그를 기록한 클래스의 이름을 출력|
+| %method 또는 %M| 로그를 기록한 메서드의 이름을 출력|
+| %line 또는 %L| 로그를 기록한 소스 파일의 라인 번호를 출력|
+| %date 또는 %d{pattern}| 로그 이벤트의 타임스탬프를 지정된 형식으로 출력|
+| %file 또는 %F| 로그를 기록한 소스 파일의 이름을 출력|
+| %mdc 또는 %X{key}| MDC(Mapped Diagnostic Context)에서 특정 키의 값을 출력|
+| %ex 또는 %exception| 예외 스택 트레이스를 출력|
+
+`Root`
+- Appender를 활용하기 위해 Root영역에서 Appender에서 참조해서 로깅레벨을 설정
+- 만약 특정 패키지에 대해 다른 로깅 레벨을 설정하고 싶다면 `root` 대신 `logger`를 사용
+- `additivity` 지정한 패키지 범위에 하위 패키지를 포함할지 여부 결정
+
+```xml
+<logger name="com.springboot.api.controller" lever="DEBUG" additivity="false">
+    <appender-ref ref="CONSOLE" />
+    <appender-ref ref="INFO_LOG" />
+</logger>
+```
+
+---
+
+### 5. Logback 적용
+
+```java
+@RestController
+@RequestMapping("/api/v1/get-api")
+public class GetController {
+  
+  private final Logger LOGGER = LoggerFactory.getLogger(GetController.class);
+
+  @GetMapping(value="/hello")
+  public String getName() {
+    LOGGER.info("getHello 메서드가 호출되었습니다.");
+    return "log호출";
+  }
+  
+}
+```
+
+- `LoggerFactory`를 통해 `Logger` 객체 생성
+
+```txt
+2024-05-28 11:49:06.147 [http-nio-8090-exec-3] INFO  c.r.api.controller.GetController - getHello 메서드가 호출되었습니다.
+```
+
+- 다음과 같이 출력되는 것을 볼 수 있음
+
+```java
+@GetMapping("/hello/{variable}")
+public String getName(@PathVariable String variable) {
+  LOGGER.info("{}", variable);
+  return variable;
+}
+```
+
+- 다음과 같이 변수를 로깅할 수도 있음
