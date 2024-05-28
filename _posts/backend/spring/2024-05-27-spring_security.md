@@ -570,3 +570,139 @@ public String noticeReg(Notice n, HttpServletRequest request, Principal principa
 - `data-source-ref`: 데이터 소스 빈의 참조를 지정
 - `users-by-username-query`: 사용자 정보를 조회하기 위한 SQL 쿼리를 정의
 - `authorities-by-username-query`: 사용자의 권한 정보를 조회하기 위한 SQL 쿼리를 정의
+
+---
+<br>
+
+## Ⅶ. 비밀번호 암호화
+
+### 1. bCryptPasswordEncoder
+
+> Spring Security 프레임워크에서 제공하는 비밀번호 암호화 유틸리티
+
+- bcrypt 해시 함수를 사용하여 비밀번호를 암호화
+- 저장된 해시와 사용자가 입력한 비밀번호를 비교하는 데 사용
+
+---
+
+### 2. 설정
+
+다음과 같이 Root Context와 Security Context에 의존성을 주입해준다.
+
+```xml
+<!-- Root  Context  -->
+<bean id="bCryptPasswordEncoder"   class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+</bean>
+
+<!-- Security Context  -->
+<security:password-encoder ref="bCryptPasswordEncoder"/>
+```
+
+---
+
+### 3. 데이터베이스 칼럼 타입 변경
+
+암호화된 데이터는 기존 varchar2 타입이 감당하지 못 할 가능성이 높다.
+- 최대 수용량을 늘려줘야한다.
+
+```sql
+alter table member
+modify (pwd varchar2(2000));
+```
+
+---
+
+### 4. Controller 설정
+
+```java
+@Controller
+@RequestMapping("/join/")
+public class JoinController {
+
+	@Autowired
+	private View jsonview;
+
+	@Autowired
+	private JoinService service;
+
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+  ...
+
+  // 회원가입
+	@RequestMapping(value = "join.htm", method = RequestMethod.POST) 
+	public String join(Member member) {
+		int result = 0;
+		String viewpage = "";
+		member.setPwd(this.bCryptPasswordEncoder.encode(member.getPwd())); //암호화 
+		result = service.insertMember(member);
+		if (result > 0) {
+			System.out.println("삽입 성공");
+			viewpage = "redirect:/index.htm";
+		} else {
+			System.out.println("삽입 실패");
+			viewpage = "join.htm";
+		}
+		return viewpage;
+	}
+
+  ...
+}
+```
+
+- `bCryptPasswordEncoder`의 의존성 주입
+- `bCryptPasswordEncoder` 객체의 `encode` 메서드를 통해 암호화한 비밀번호를 입력
+
+```java
+@Controller
+@RequestMapping("/join/")
+public class MemberController {
+
+	@Autowired
+	private MemberService service;
+	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+  // 회원 확인
+	@RequestMapping(value="memberconfirm.htm",method=RequestMethod.POST)
+	public String memberConfirm(@RequestParam("password") String rawPassword,	Principal principal){
+		String viewpage="";
+		
+		//회원정보
+		Member member = service.getMember(principal.getName());
+		
+		//DB에서 가져온 암호화된 문자열
+		String encodedPassword = member.getPwd();
+		
+    // 비밀번호 확인
+		boolean result = bCryptPasswordEncoder.matches(rawPassword, encodedPassword);
+		
+		if(result){
+			viewpage="redirect:memberupdate.htm";
+		}else{
+			viewpage="redirect:memberconfirm.htm";
+		}
+		
+		return viewpage;
+	}
+	
+	// 회원 정보 업데이트
+	@RequestMapping(value="memberupdate.htm", method=RequestMethod.POST)
+	public String memberUpdate(Model model, Member member, Principal principal){
+		
+		Member updatemember = service.getMember(principal.getName());
+		
+		updatemember.setName(member.getName());
+		updatemember.setCphone(member.getCphone());
+		updatemember.setEmail(member.getEmail());
+		updatemember.setPwd(bCryptPasswordEncoder.encode(member.getPwd()));
+		service.updateMember(updatemember);
+		return "redirect:/index.htm";
+	}
+}
+```
+
+- 비밀번호 일치 여부 확인은 `bCryptPasswordEncoder`객체의 `matches` 메서드 확인
+- 회원정보 업데이트 시 비밀번호 인코딩 또한 회원가입과 동일하게 진행

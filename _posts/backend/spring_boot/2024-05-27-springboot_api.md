@@ -404,3 +404,103 @@ return name + " : " + email;
 <img src="/assets/img/post/backend/spring-boot/2024-05-27-spring_api/02.png" width="100%" title="02" alt="02"/> 
 
 결과는 위와 같다.
+
+---
+<br>
+
+## Ⅵ. Logback
+
+### 1. Logback이란?
+
+> 자바 진영에서 가장 많이 사용되는 로깅 프레임워크
+
+- slf4j를 기반으로 구현
+- 기존 log4j에 비해 월등한 성능을 자랑
+
+---
+
+### 2. Logback의 5가지의 로그 레벨
+
+#### 5가지의 로그 레벨
+
+`TRACE`
+- 가장 상세한 로그 레벨
+- 주로 개발 및 디버깅 시 사용되며, 프로그램의 아주 세부적인 흐름을 기록
+
+`DEBUG`
+- 개발 중인 애플리케이션의 디버깅 정보를 제공합
+- 애플리케이션의 흐름과 상태를 이해하는 데 도움이 되는 유용한 정보를 기록
+
+`INFO`
+- 애플리케이션의 일반적인 작동 정보를 기록
+주로 운영 환경에서 애플리케이션의 정상적인 작동 흐름을 모니터링하는 데 사용
+
+`WARN`
+- 잠재적인 문제나 주의가 필요한 상황을 기록
+- 애플리케이션이 계속 작동할 수 있지만, 향후 문제를 일으킬 수 있는 상황을 나타냄
+
+`ERROR`
+- 에러 레벨은 심각한 문제를 기록합니다.
+- 애플리케이션의 일부 기능이 실패했거나 복구 불가능한 상태를 나타냄
+
+--- 
+
+### 3. Logback의 특징
+
+- 실제 운영 환경과 새발 환경에서 각각 다른 출력 레벨을 설정해서 로그를 확인
+- 설정 파일을 일정 시간마다 스캔해서 애플리케이션을 재기동하지 않아도 설정 변경 가능
+- 별도의 프로그램 지원 없이도 자체적으로 로그 파일을 압축할 수 있다.
+- 저장된 로그 파일에 대한 보관 기간 등을 설정해서 관리 가능
+
+---
+
+### 4. Logback 설정
+
+일반적으로 클래스패스에 있는 설정 파일을 자동으로 참조
+- Logback 설정 파일은 리소스 폴더 안에 생성
+- 파일명의 경우 스프링부트에선 logback-spring.xml 파일을 참조
+
+---
+
+```xml
+<configuration>
+    <!-- 스프링 프로파일에 따른 설정을 로드할 수 있도록 해줍니다. -->
+    <springProfile name="dev">
+        <property name="LOG_LEVEL" value="DEBUG" />
+    </springProfile>
+    <springProfile name="prod">
+        <property name="LOG_LEVEL" value="INFO" />
+    </springProfile>
+
+    <!-- 콘솔에 로그를 출력하는 Appender 설정 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 파일에 로그를 출력하는 Appender 설정 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/application.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 매일 로그 파일을 롤링하며, 30일 동안 보관 -->
+            <fileNamePattern>logs/application.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 루트 로거 설정 -->
+    <root level="${LOG_LEVEL:INFO}">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
+    </root>
+
+</configuration>
+```
+
+
+
+
