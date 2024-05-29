@@ -2,7 +2,7 @@
 title: Spring Boot - JPA 기본
 date: 2024-05-28 15:00:00 +09:00
 categories: [Back-End, Spring Boot]
-tags: [Back-End, Java, Spring Boot, Database]
+tags: [Back-End, Java, Spring Boot, JPA]
 ---
 
 ## Ⅰ. JPA란?

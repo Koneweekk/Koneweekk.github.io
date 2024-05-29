@@ -349,8 +349,6 @@ API가 개발 과정에서 주기적으로 변경됨에 따라 명세 문서 또
 dependencies {
     ...
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
-	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
-	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
     ...
 }
 ```
