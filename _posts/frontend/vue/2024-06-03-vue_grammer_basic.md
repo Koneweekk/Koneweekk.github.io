@@ -1,5 +1,5 @@
 ---
-title: Spring Boot - Vue 문법 기본
+title: Vue - Vue 문법 기본
 date: 2024-06-03 10:30:00 +09:00
 categories: [Front-End, Vue]
 tags: [Front-End, Javascript, Vue]
