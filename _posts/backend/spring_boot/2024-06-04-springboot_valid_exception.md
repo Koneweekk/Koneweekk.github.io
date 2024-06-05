@@ -428,12 +428,6 @@ try {
 - `@(Rest)ContollerAdvice`와 `@ExceptionHandler`를 통해 모든 컨트롤러의 예외 처리
 - `@ExceptionHandler`를 통해 특정 컨트롤러의 예외 처리
 
-#### @RestControllerAdvice
-
-- `@Controller` 혹은 `@RestContoller`에서 발생하는 예외를 한 곳에서 관리하고 처리
-- 다음과 같은 코드를 통해 예외를 관제하는 범위 지정 가능
-- `@RestControllerAdvice(basePackages = "com.springboot.valid_exception")`
-
 ```java
 @RestControllerAdvice
 public class CustomExceptionHandler {
@@ -460,7 +454,153 @@ public class CustomExceptionHandler {
 }
 ```
 
+`@RestControllerAdvice`
+- `@Controller` 혹은 `@RestContoller`에서 발생하는 예외를 한 곳에서 관리하고 처리
+- `basePackages` 속성으로 예외를 관제하는 범위 지정 가능(ex : `basePackages = "com.springboot.valid_exception"`)
+
 `@ExceptionHandler`
 - 컨트롤러에서 발생하는 예외를 잡아 처리하는 메서드를 정의할 때 사용
-- 어떤 예외 클래스를 처리할지는 `value` 속성으로 등록
+- `value` 속성으로 처리할 예외 클래스등록(배열 형태로 다수의 클래스 등록 가능)
+
+![@RestControllerAdvice](/assets/img/post/backend/spring-boot/2024-06-04-springboot-valid_exception/04.png)
+
+SWAGGER를 통해 runtime 에러를 발생시켜보면 위 그림 처럼 응답이 오는 것을 확인할 수 있다.
+- 컨트롤러에서 던진 예외는 ControllerAdvice가 선언된 핸드러 클래스에서 매핑된 예외 타입을 찾아 처리
+
+```java
+@RestController
+@RequestMapping("/exception")
+public class ExceptionController {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(ExceptionController.class);
+
+    @GetMapping
+    public void getRuntimeException() {
+        throw new RuntimeException("getRuntimeException 메소드 호출");
+    }
+
+    @ExceptionHandler(value = RuntimeException.class)
+    public ResponseEntity<Map<String, String>> handleException(RuntimeException e,
+        HttpServletRequest request) {
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setContentType(MediaType.APPLICATION_JSON);
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+
+        LOGGER.error("클래스 내 handleException 호출, {}, {}", request.getRequestURI(),
+            e.getMessage());
+
+        Map<String, String> map = new HashMap<>();
+        map.put("error type", httpStatus.getReasonPhrase());
+        map.put("code", "400");
+        map.put("message", e.getMessage());
+
+        return new ResponseEntity<>(map, responseHeaders, httpStatus);
+    }
+
+}
+```
+
+위 코드처럼 컨트롤러 안 메서드에 `@ExceptionHandler`를 사용 가능
+- 해당 클래스에 국한해서 예외 처리 가능
+- 동일한 예외 클래스 처리하는 `@ControllerAdvice`보다 우선 순위가 높음
+- 만약 `@ControllerAdvice`가 더 좁은 범위의 클래스를 처리한다면 우선 순위가 낮음
+
+---
+
+### 5. 커스텀 예외
+
+#### 커스텀 예외를 사용하는 이유
+- 네이밍에 개발자의 의도를 담을 수 있음
+- 발생하는 예외를 개발자가 직접 관리하기가 수월해짐
+- 예외 상황에 대한 처리도 용이해짐
+
+#### 커스템 예외 생성
+
+우선 도메인 레벨 표현을 위한 열거형을 생성
+- 상수들을 통합 관리하는 클래스를 생성 후 내부에 `ExceptionClass` 선언
+- 커스텀 예외 클래스의 매시지에 어떤 도메인에서 문제가 발생했는지 부여주는데 사용
+
+```java
+public class Constants {
+
+    public enum ExceptionClass {
+
+        PRODUCT("Product");
+
+        private String exceptionClass;
+
+        ExceptionClass(String exceptionClass) {
+            this.exceptionClass = exceptionClass;
+        }
+
+        public String getExceptionClass() {
+            return exceptionClass;
+        }
+
+        @Override
+        public String toString() {
+            return getExceptionClass() + " Exception. ";
+        }
+
+    }
+
+}
+```
+
+커스텀 예외 클래스를 생성하는데 필요한 내용은 다음과 같다
+- 에러 타입 : `HttpStatus`의 `reasonPhrase`
+- 에러 코드 : `HttpStatus`의 `value`
+- 메시지 : 상황별 
+
+```java
+public class CustomException extends Exception{
+
+    private static final long serialVersionUID = 4300333310379239987L;
+
+    private Constants.ExceptionClass exceptionClass;
+    private HttpStatus httpStatus;
+
+    public CustomException(Constants.ExceptionClass exceptionClass, HttpStatus httpStatus,
+        String message) {
+        super(exceptionClass.toString() + message);
+        this.exceptionClass = exceptionClass;
+        this.httpStatus = httpStatus;
+    }
+
+    public Constants.ExceptionClass getExceptionClass() {
+        return exceptionClass;
+    }
+
+    public int getHttpStatusCode() {
+        return httpStatus.value();
+    }
+
+    public String getHttpStatusType() {
+        return httpStatus.getReasonPhrase();
+    }
+
+    public HttpStatus getHttpStatus() {
+        return httpStatus;
+    }
+
+}
+```
+
+`exceptionClass`과 `httpStatus` 이 두 가지 필드를 가짐
+- 기존 핸들러 메서드와 달리 예외 발생 시점에 `httpStatus`를 정의해서 전달
+- 클라이언트 요청에 따라 유동적인 응답 코드를 설정할 수 있음
+
+아래 `CustomException`을 던지는 메서드를 실행해보면 예외 발생 시점이 잘 전달되는 것을 확인 가능
+
+```java
+@GetMapping("/custom")
+public void getCustomException() throws CustomException {
+    throw new CustomException(ExceptionClass.PRODUCT, 
+                            HttpStatus.BAD_REQUEST, 
+                            "getCustomException 메소드 호출"
+    );
+}
+```
+
+![@RestControllerAdvice](/assets/img/post/backend/spring-boot/2024-06-04-springboot-valid_exception/05.png)
 
