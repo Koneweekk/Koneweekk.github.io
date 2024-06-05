@@ -122,6 +122,52 @@ export default {
 - 위의 경우 Vue는 콘솔에서 경고를 출력
 
 ---
+
+### 5. Props Composition API
+
+위 예시코드를 다음과 같이 composition API로 바꿀 수 있다.
+
+```html
+<!-- MyComponent.vue -->
+<template>
+  <div class="border">
+    <h1>This is MyComponent</h1>
+    <MyChild
+      :static-props="staticProps"
+      :dynamic-props="dynamicProps"
+    />
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import MyChild from '@/components/MyChild.vue';
+
+const dynamicProps = ref("It's in setup");
+const staticProps = "component에서 child로";
+
+</script>
+```
+
+```html
+<!-- MyChild.vue -->
+<template>
+  <div>
+    <h3>This is child component</h3>
+    <p>{{ staticProps }}</p>
+    <p>{{ dynamicProps }}</p>
+  </div>
+</template>
+
+<script setup>
+import { defineProps } from 'vue';
+
+const { staticProps, dynamicProps } = defineProps(['staticProps', 'dynamicProps']);
+
+</script>
+```
+
+---
 <br>
 
 ## Ⅱ. Emit Event
@@ -296,5 +342,53 @@ export default {
     }
   }
 }
+</script>
+```
+
+---
+
+### 5. Emit Event Composition API
+
+위 예시 코드를 Vue3의 Composition API로 변경하면 다음과 같다
+
+```html
+<!-- MyChild.vue -->
+<template>
+  <div>
+    ...
+    <input type="text" v-model="childinputData" @keyup.enter="childInput">
+  </div>
+</template>
+
+<script setup>
+import { ref, emit, defineEmits } from 'vue';
+
+const childinputData = ref(null);
+
+const emit = defineEmits(['child-input']);
+
+const childInput = () => {
+  if (childinputData.value) {
+    emit('child-input', childinputData.value);
+    childinputData.value = "";
+  }
+};
+</script>
+```
+
+```html
+<!-- MyComponent.vue -->
+<template>
+  <div class="border">
+    <MyChild @child-input="getDynamicData" />
+  </div>
+</template>
+
+<script setup>
+import { onMounted } from 'vue';
+
+const getDynamicData = (inputData) => {
+  console.log(`하위 컴포넌트에서 ${inputData}를 받음`);
+};
 </script>
 ```
