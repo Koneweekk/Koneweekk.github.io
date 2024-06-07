@@ -16,13 +16,9 @@ tags:
 
 ### 2. AMI(Amazon Machine Image) 선택
 
-- 이 글에선 Amazon Linux를 선택
+- 이 글에선 ubuntu를 선택
 
 ![02](/assets/img/post/cicd/aws/ec2-instance/02.png)
-
-- 프리티어를 사용할 것이므로 지원 여부를 잘 확인
-
-![03](/assets/img/post/cicd/aws/ec2-instance/03.png)
 
 ---
 
