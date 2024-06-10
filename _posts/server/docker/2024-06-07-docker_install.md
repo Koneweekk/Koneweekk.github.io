@@ -1,9 +1,9 @@
 ---
 title: Docker - Docker Desktop 설치
 date: 2024-06-07 09:20:00 +09:00
-categories: [CI/CD, Docker]
+categories: [Server, Docker]
 tags:
-  [ CI/CD, Docker]
+  [ Server, Docker]
 ---
 
 ## Ⅰ. WSL 설치

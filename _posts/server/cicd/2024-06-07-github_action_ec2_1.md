@@ -1,9 +1,9 @@
 ---
-title: Docker - GitAction과 Docker를 이용한 Spring Boot EC2 자동 배포
+title: CI/CD - GitAction과 Docker를 이용한 Spring Boot EC2 자동 배포
 date: 2024-06-07 12:00:00 +09:00
-categories: [CI/CD, Docker]
+categories: [Server, CI/CD]
 tags:
-  [ CI/CD, Docker, AWS EC2, Spring Boot, Git Action ]
+  [ Server, CI/CD, Docker, AWS EC2, Spring Boot, Git Action ]
 ---
 
 ## Ⅰ. Docker 레포지토리 생성

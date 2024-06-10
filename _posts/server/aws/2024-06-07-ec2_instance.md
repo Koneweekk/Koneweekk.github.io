@@ -1,9 +1,9 @@
 ---
 title: AWS - EC2 인스턴스 생성 및 세팅
 date: 2024-06-07 10:30:00 +09:00
-categories: [CI/CD, AWS]
+categories: [Server, AWS]
 tags:
-  [ CI/CD, AWS EC2]
+  [ Server, AWS, EC2 ]
 ---
 
 ## Ⅰ. AWS EC2 인스턴스 생성

@@ -1,10 +1,9 @@
 ---
-title: Server - 이클립스로 Tomcat 웹서버 구동
+title: Tomcat - 이클립스로 Tomcat 웹서버 구동
 date: 2024-04-15 10:40:00 +09:00
-categories: [Web, Server]
+categories: [Server, Tomcat]
 tags:
   [
-    Web,
     Server,
     Eclipse
     Tomcat
