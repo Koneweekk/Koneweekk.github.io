@@ -8,7 +8,7 @@ tags:
 
 Vue의 자동 배포 설정 과정은 아래 포스팅의 내용과 크게 다르지 않다.
 
-[GitAction과 Docker를 이용한 Spring Boot EC2 자동 배포](https://koneweekk.github.io/posts/github_action_ec2_1/)
+[GitAction과 Docker를 이용한 Spring Boot EC2 자동 배포](https://koneweekk.github.io/posts/githubaction_ec2_1/)
 
 차이점은 딱 다음 2가지이다.
 
