@@ -255,7 +255,7 @@ private ProductDetail productDetail;
 - 상품 테이블 입장에선 다대일
 - 공급업체 테이블 입자에선 일대다
 
-![일대일 단방향](/assets/img/post/backend/spring-boot/2024-06-04-springboot_jpa_mapping/01.png)
+![일대일 단방향](/assets/img/post/backend/spring-boot/2024-06-04-springboot_jpa_mapping/02.png)
 
 ### 1. 다대일 단방향 매핑
 
