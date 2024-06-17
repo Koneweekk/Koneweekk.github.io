@@ -1,7 +1,7 @@
 ---
 title: Linux - Apache Tomcat 설치하기
 date: 2024-04-11 17:50:00 +09:00
-categories: [Linux, Linux Install]
+categories: [OS, Linux]
 tags:
   [
     linux,

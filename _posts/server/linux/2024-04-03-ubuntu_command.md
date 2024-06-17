@@ -1,7 +1,7 @@
 ---
 title: Linux - Ubuntu 명령어 1
 date: 2024-04-03 18:10:00 +09:00
-categories: [Linux, Command]
+categories: [OS, Linux]
 tags:
   [
     linux,
