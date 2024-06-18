@@ -123,4 +123,29 @@ docker run hello-world
 
 ---
 
-### 2. 명령어 
+### 2. 기본적인 명령어
+
+```bash
+docker build
+```
+
+- 실행시킬 어플리케이션과 그 실행환경을 image로 만듦
+
+```bash
+docker push
+```
+
+- 만든 이미지를 docker-hub와 같은 원격 레포지토리에 업로드
+
+
+```bash
+docker pull
+```
+
+- docker hub와 같은 원격 레포지토리에서 image를 불러옴
+
+```bash
+docker run
+```
+
+- 해당 image를 컨테이너화하여 실행
