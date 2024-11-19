@@ -31,10 +31,10 @@ const camera = new THREE.PerspectiveCamera( fov, aspect, near, far );
     - 광각의 화각 : 63˚ 이상
 - 이 수치는 three.js에서 제공하는 `PerspectiveCamera`의 `fov` 속성을 통해 조절할 수 있다.
 
-<img src="/assets/img/post/frontend/three/2024-11-19-three_camera/01.png" width="50%">
+<img src="/assets/img/post/frontend/three/2024-11-19-three_camera/01.png" width="50%" alt="">
 - 28도의 화각
 
-<img src="/assets/img/post/frontend/three/2024-11-19-three_camera/02.png" width="50%">
+<img src="/assets/img/post/frontend/three/2024-11-19-three_camera/02.png" width="50%" alt="">
 - 63도의 화각
 
 ---
