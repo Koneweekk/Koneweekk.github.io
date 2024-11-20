@@ -249,4 +249,35 @@ scene.add(spotLight);
 
 ### 2. 그림자 해상도 설정
 
+그림자 해상도를 증가시키기 위해서는 그림자를 생성하는 광원의 `shadow.mapSize` 속성을 조절할 수 있다. 
+- 기본값은 512이지만, 이를 더 높은 값으로 설정하면 그림자 해상도가 증가한다.
 
+```js
+// 그림자 해상도 증가
+pointLight.shadow.mapSize.width = 1024;
+pointLight.shadow.mapSize.height = 1024;
+
+scene.add(pointLight);
+```
+
+위 예제에서는 `mapSize`를 1024로 설정하여 그림자 해상도를 증가시켰다. 필요에 따라 이 값을 더 높게 설정할 수 있다.
+
+---
+
+### 3. 그림자 부드럽게 만들기
+
+그림자를 부드럽게 만들기 위해서는 그림자를 생성하는 광원의 `shadow.radius` 속성을 조절할 수 있다.
+- 이 속성은 그림자의 경계선을 부드럽게 만들어준다.
+
+```js
+// 그림자 부드럽게 만들기
+pointLight.shadow.radius = 4;
+
+scene.add(pointLight);
+```
+
+위 예제에서는 `radius`를 4로 설정하여 그림자의 경계선을 부드럽게 만들었다. 필요에 따라 이 값을 조절하여 원하는 부드러움 정도를 설정할 수 있다.
+
+![13](/assets/img/post/frontend/three/2024-11-19-three_camera/13.png)
+
+--- 
