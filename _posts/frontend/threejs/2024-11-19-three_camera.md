@@ -206,3 +206,47 @@ scene.add(spotLight);
 ```
 
 ![11](/assets/img/post/frontend/three/2024-11-19-three_camera/11.png)
+
+---
+<br>
+
+## Ⅲ. 그림자 표현
+
+### 1. 그림자 표현을 위한 설정
+
+우선 renderer 객체에 그림자 표현을 위한 설정을 해준다.
+
+```js
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.shadowMap.enabled = true;
+```
+
+그림자의 대상이 되는 객체를 위한 설정을 추가한다.
+
+```js
+cube.castShadow = true;
+```
+
+이후 그림자가 나타날 대상에 대한 설정을 추가한다.
+
+```js
+floor.receiveShadow = true;
+```
+
+이후 그림자를 생기게할 빛 설정을 한다.
+
+```js
+const pointLight = new THREE.PointLight(0xffffff, 3);
+pointLight.position.set(0, 1, 1);
+pointLight.castShadow = true;
+
+scene.add(spotLight);
+```
+
+![12](/assets/img/post/frontend/three/2024-11-19-three_camera/12.png)
+
+---
+
+### 2. 그림자 해상도 설정
+
+
